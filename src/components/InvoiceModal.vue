@@ -180,6 +180,7 @@
 </template>
 
 <script>
+import db from "../firebase/firebaseInit";
 import { mapMutations } from "vuex";
 import { uid } from "uid";
 export default {
@@ -187,6 +188,7 @@ export default {
   data() {
     return {
       dateOptions: { year: "numeric", month: "short", day: "numeric" },
+      docId: null,
       billerStreetAddress: null,
       billerCity: null,
       billerZipCode: null,
@@ -206,6 +208,7 @@ export default {
       invoicePending: null,
       invoiceDraft: null,
       invoiceItemList: [],
+      invoiceTotal: 0,
     };
   },
   created() {
@@ -234,10 +237,66 @@ export default {
     },
 
     deleteInvoiceItem(id) {
-        this.invoiceItemList = this.invoiceItemList.filter(item => item.id !== id)
-    }
+      this.invoiceItemList = this.invoiceItemList.filter(
+        (item) => item.id !== id
+      );
+    },
 
-    
+    calInvoiceTotal() {
+      this.invoiceTotal = 0;
+      this.invoiceItemList.forEach((item) => {
+        this.invoiceTotal += item.total;
+      });
+    },
+
+    publishInvoice() {
+      this.invoicePending = true;
+    },
+
+    saveDraft() {
+      this.invoiceDraft = true;
+    },
+
+    async uploadInvoice() {
+      if (this.invoiceItemList.length <= 0) {
+        alert("Please ensure you filled out");
+        return;
+      }
+
+      this.calInvoiceTotal();
+
+      const dataBase = db.collection("invoices").doc();
+
+      await dataBase.set({
+        invoiceId: uid(6),
+        billerStreetAddress: this.billerStreetAddress,
+        billerCity: this.billerCity,
+        billerZipCode: this.billerZipCode,
+        billerCountry: this.billerCountry,
+        clientName: this.clientName,
+        clientEmail: this.clientEmail,
+        clientStreetAddress: this.clientStreetAddress,
+        clientCity: this.clientCity,
+        clientZipCode: this.clientZipCode,
+        clientCountry: this.clientCountry,
+        invoiceDateUnix: this.invoiceDateUnix,
+        invoiceDate: this.invoiceDate,
+        paymentTerms: this.paymentTerms,
+        paymentDueDateUnix: this.paymentDueDateUnix,
+        paymentDueDate: this.paymentDueDate,
+        productDescription: this.productDescription,
+        invoicePending: this.invoicePending,
+        invoiceDraft: this.invoiceDraft,
+        invoiceItemList: this.invoiceItemList,
+        invoiceTotal: this.invoiceTotal,
+      });
+
+      this.TOGGLE_INVOICE();
+    },
+
+    submitForm() {
+      this.uploadInvoice();
+    },
   },
   watch: {
     paymentTerms() {
