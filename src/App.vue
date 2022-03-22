@@ -3,6 +3,7 @@
     <div v-if="!mobile" class="app flex flex-column">
       <NavigationBar></NavigationBar>
       <div class="app-content flex flex-column">
+        <CloseConfirmModal v-if="modalActive"></CloseConfirmModal>
         <transition name="invoice">
           <InvoiceModal v-if="invoiceModal"></InvoiceModal>
         </transition>
@@ -21,6 +22,7 @@
 import {mapState} from 'vuex'
 import NavigationBar from "./components/NavigationBar.vue";
 import InvoiceModal from "./components/InvoiceModal.vue";
+import CloseConfirmModal from './components/CloseConfirmModal.vue';
 export default {
   data() {
     return { mobile: null };
@@ -28,6 +30,7 @@ export default {
   components: {
     NavigationBar,
     InvoiceModal,
+    CloseConfirmModal,
   },
   created() {
     this.checkScreen();
@@ -44,7 +47,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(["invoiceModal"]),
+    ...mapState(["invoiceModal", "modalActive"]),
   }
 };
 </script>
@@ -56,7 +59,7 @@ export default {
   padding: 0;
   box-sizing: border-box;
   font-family: "Poppins", san-serif;
-  background-color: #141625;
+  // background-color: #141625;
 }
 .app {
   background-color: #141625;
