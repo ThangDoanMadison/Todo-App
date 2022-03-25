@@ -41,8 +41,11 @@
         <div class="input flex flex-column">
           <label for="taskTerms">Deadline Terms</label>
           <select required type="text" id="taskTerms" v-model="taskTerms">
-            <option value="30">Net 30 Days</option>
-            <option value="60">Net 60 Days</option>
+            <option value="1">Next 1 Days</option>
+            <option value="5">Next 5 Days</option>
+            <option value="10">Next 10 Days</option>
+            <option value="30">Next 30 Days</option>
+            <option value="60">Next 60 Days</option>
           </select>
         </div>
         <div class="input flex flex-column">
@@ -98,7 +101,7 @@ export default {
     return {
       dateOptions: { year: "numeric", month: "short", day: "numeric" },
       docId: null,
-      taskName:null,
+      taskName: null,
       loading: null,
       taskDateUnix: null,
       taskDate: null,
@@ -217,7 +220,7 @@ export default {
         // taskDueDateUnix: this.taskDueDateUnix,
         taskDescription: this.taskDescription,
         taskItemList: this.taskItemList,
-        taskPriority:this.taskPriority,
+        taskPriority: this.taskPriority,
       });
 
       this.loading = false;
@@ -376,7 +379,6 @@ export default {
           align-items: center;
           justify-content: center;
           width: 100%;
-          
 
           img {
             margin-right: 4px;
@@ -394,7 +396,7 @@ export default {
 
       .right {
         justify-content: flex-end;
-        button{
+        button {
           font-size: 10px;
         }
       }

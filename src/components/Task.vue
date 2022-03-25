@@ -4,7 +4,6 @@
       <span class="task-name">{{ task.taskName }}</span>
       <span class="task-date">{{ task.taskDate }}</span>
       <span class="due-date">{{ task.taskDueDate }}</span>
-      <span class="person">{{ task.taskName }}</span>
     </div>
     <div class="right flex">
       <span class="priority">{{ task.taskPriority  }}</span>
