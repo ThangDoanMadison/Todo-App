@@ -6,7 +6,8 @@
 
 <script>
 export default {
-  name: "loadingCss",
+  // eslint-disable-next-line
+  name: "loading",
 };
 </script>
 

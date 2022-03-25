@@ -1,14 +1,15 @@
 <template>
   <header class="flex">
     <div class="branding flex">
-      <img src="../assets/file-invoice-dollar-solid.png" alt="" />
+      <img src="@/assets/file-task.png" alt="" />
     </div>
   </header>
 </template>
 
 <script>
 export default {
-  name: "navigation-bar",
+  // eslint-disable-next-line
+  name: "navigation",
 };
 </script>
 
@@ -32,8 +33,9 @@ header {
     @media (min-width: 900px) {
       width: 100%;
     }
-    img{
-      width:auto;
+
+    img {
+      width: auto;
       height: 30px;
     }
   }

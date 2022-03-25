@@ -3,11 +3,11 @@
     <div v-if="!mobile" class="app flex flex-column">
       <NavigationBar></NavigationBar>
       <div class="app-content flex flex-column">
-        <CloseConfirmModal v-if="modalActive"></CloseConfirmModal>
-        <transition name="invoice">
-          <InvoiceModal v-if="invoiceModal"></InvoiceModal>
+        <Modal v-if="modalActive"></Modal>
+        <transition name="task">
+          <TaskModal v-if="taskModal"></TaskModal>
         </transition>
-        
+
         <router-view />
       </div>
     </div>
@@ -19,24 +19,27 @@
 </template>
 
 <script>
-import {mapState} from 'vuex'
+import { mapState, mapActions } from "vuex";
 import NavigationBar from "./components/NavigationBar.vue";
-import InvoiceModal from "./components/InvoiceModal.vue";
-import CloseConfirmModal from './components/CloseConfirmModal.vue';
+import TaskModal from "./components/TaskModal.vue";
+import Modal from "./components/Modal.vue";
 export default {
   data() {
     return { mobile: null };
   },
   components: {
     NavigationBar,
-    InvoiceModal,
-    CloseConfirmModal,
+    TaskModal,
+    Modal,
   },
   created() {
+    this.GET_TASKS();
     this.checkScreen();
     window.addEventListener("resize", this.checkScreen);
   },
   methods: {
+    ...mapActions(["GET_TASKS"]),
+
     checkScreen() {
       const windowWidth = window.innerWidth;
       if (windowWidth <= 750) {
@@ -47,8 +50,8 @@ export default {
     },
   },
   computed: {
-    ...mapState(["invoiceModal", "modalActive"]),
-  }
+    ...mapState(["taskModal", "modalActive"]),
+  },
 };
 </script>
 
@@ -86,20 +89,17 @@ export default {
   }
 }
 
-//animated invoice
+//animated task
 
-.invoice-enter-active,
-.invoice-leave-active
-{
+.task-enter-active,
+.task-leave-active {
   transition: 0.8s ease all;
 }
 
-.invoice-enter-from,
-.invoice-leave-to {
+.task-enter-from,
+.task-leave-to {
   transform: translateX(-700px);
 }
-
-
 
 button,
 .button {
@@ -114,7 +114,7 @@ button,
 .dark-purple {
   background-color: #252945;
 }
-.purple{
+.purple {
   background-color: #7c5dfa;
 }
 .red {
@@ -164,7 +164,7 @@ button,
   border-radius: 10px;
 }
 
-.paid {
+.done {
   &::before {
     background-color: #33d69f;
   }
@@ -176,9 +176,9 @@ button,
     background-color: #ff8f00;
   }
   color: #f88f00;
-  background-color: #dfe3fa;
+  background-color: rgba(255, 145, 0, 0.1);
 }
-.draft {
+.not-started {
   &::before {
     background-color: #dfe3fa;
   }

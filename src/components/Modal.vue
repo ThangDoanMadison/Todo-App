@@ -4,27 +4,34 @@
       <p>Are you sure you want to exit? Your changes will not be saved?</p>
       <div class="actions flex">
         <button @click="closeModal" class="purple">Return</button>
-        <button @click="closeInvoice" class="red">Close</button>
+        <button @click="closeTask" class="red">Close</button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapMutations } from "vuex";
+import { mapMutations, mapState } from "vuex";
 export default {
-  name: "closeConfirmModal",
+  // eslint-disable-next-line
+  name: "modal",
   methods: {
-    ...mapMutations(["TOGGLE_MODAL", "TOGGLE_INVOICE"]),
+    ...mapMutations(["TOGGLE_MODAL", "TOGGLE_TASK", "TOGGLE_EDIT_TASK"]),
 
     closeModal() {
       this.TOGGLE_MODAL();
     },
 
-    closeInvoice() {
+    closeTask() {
       this.TOGGLE_MODAL();
-      this.TOGGLE_INVOICE();
+      this.TOGGLE_TASK();
+      if (this.editTask) {
+        this.TOGGLE_EDIT_TASK();
+      }
     },
+  },
+  computed: {
+    ...mapState(["editTask"]),
   },
 };
 </script>
@@ -33,11 +40,11 @@ export default {
 .modal {
   z-index: 100;
   position: fixed;
-  display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
   width: 100%;
+
   .modal-content {
     border-radius: 20px;
     padding: 48px 32px;
