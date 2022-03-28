@@ -16,8 +16,8 @@
           <ul v-show="filterMenu" class="filter-menu">
             <li @click="filteredTasks">Not started</li>
             <li @click="filteredTasks">Pending</li>
-            <!-- <li @click="filteredTasks">In progress</li> -->
-            <!-- <li @click="filteredTasks">Delayed</li> -->
+            <li @click="filteredTasks">In progress</li>
+            <li @click="filteredTasks">Delayed</li>
             <li @click="filteredTasks">Done</li>
             <li @click="filteredTasks">Clear Filter</li>
           </ul>
@@ -88,6 +88,12 @@ export default {
       return this.taskData.filter((task) => {
         if (this.filteredTask === "Not Started") {
           return task.taskNotStarted === true;
+        }
+         if (this.filteredTask === "Delayed") {
+          return task.taskDelayed === true;
+        }
+         if (this.filteredTask === "In Progress") {
+          return task.taskInProgress === true;
         }
         if (this.filteredTask === "Pending") {
           return task.taskPending === true;

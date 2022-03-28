@@ -10,28 +10,20 @@
         <div
           class="status-button flex"
           :class="{
-            done: currentTask.taskDone,
-            notStarted: currentTask.taskNotStarted,
-            pending: currentTask.taskPending,
+            'not-started': currentTask.taskStatus === 'Not Started',
+            'pending': currentTask.taskStatus === 'Pending',
+            'in-progress': currentTask.taskStatus === 'In Progress',
+            'delayed': currentTask.taskStatus === 'Delayed',
+            'done': currentTask.taskStatus === 'Done',
           }"
         >
-          <span v-if="currentTask.taskDone">Done</span>
-          <span v-if="currentTask.taskNotStarted">Not Started</span>
-          <span v-if="currentTask.taskPending">Pending</span>
+          <span>{{ currentTask.taskStatus }}</span>
         </div>
       </div>
       <div class="right flex">
         <button @click="toggleEditTask" class="dark-purple">Edit</button>
-        <button @click="deleteTask(currentTask.docId)" class="red">Delete</button>
-        <button @click="updateStatusToDone(currentTask.docId)" v-if="currentTask.taskPending" class="green">
-          Status To Done
-        </button>
-        <button
-          v-if="currentTask.taskNotStarted || currentTask.taskDone"
-          @click="updateStatusToPending(currentTask.docId)"
-          class="orange"
-        >
-          Status To Pending
+        <button @click="deleteTask(currentTask.docId)" class="red">
+          Delete
         </button>
       </div>
     </div>
@@ -41,12 +33,6 @@
       <div class="top flex">
         <div class="left flex flex-column">
           <p><span></span>{{ currentTask.taskName }}</p>
-        </div>
-        <div class="right flex flex-column">
-          <p>{{ currentTask.billerStreetAddress }}</p>
-          <p>{{ currentTask.billerCity }}</p>
-          <p>{{ currentTask.billerZipCode }}</p>
-          <p>{{ currentTask.billerCountry }}</p>
         </div>
       </div>
       <div class="middle flex">
@@ -68,7 +54,7 @@
         </div>
         <div class="task-description flex flex-column">
           <h4>Task Description</h4>
-          <p>{{currentTask.taskDescription}}</p>
+          <p>{{ currentTask.taskDescription }}</p>
         </div>
       </div>
     </div>
@@ -90,7 +76,9 @@ export default {
   methods: {
     ...mapMutations(["SET_CURRENT_TASK", "TOGGLE_EDIT_TASK", "TOGGLE_TASK"]),
 
-    ...mapActions(["DELETE_TASK", "UPDATE_STATUS_TO_PENDING", "UPDATE_STATUS_TO_DONE"]),
+    ...mapActions([
+      "DELETE_TASK",
+    ]),
 
     getCurrentTask() {
       this.SET_CURRENT_TASK(this.$route.params.taskId);
@@ -105,14 +93,6 @@ export default {
     async deleteTask(docId) {
       await this.DELETE_TASK(docId);
       this.$router.push({ name: "Home" });
-    },
-
-    updateStatusToDone(docId) {
-      this.UPDATE_STATUS_TO_DONE(docId);
-    },
-
-    updateStatusToPending(docId) {
-      this.UPDATE_STATUS_TO_PENDING(docId);
     },
   },
   computed: {

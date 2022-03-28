@@ -1,25 +1,34 @@
 <template>
-  <router-link class="task flex" :to="{ name: 'Task', params: { taskId: task.taskId } }">
+  <div class="task flex">
     <div class="left flex">
       <span class="task-name">{{ task.taskName }}</span>
-      <span class="task-date">{{ task.taskDate }}</span>
+      <!-- <span class="task-date">{{ task.taskDate }}</span> -->
       <span class="due-date">{{ task.taskDueDate }}</span>
     </div>
     <div class="right flex">
-      <span class="priority">{{ task.taskPriority  }}</span>
+      <span class="priority">{{ task.taskPriority }}</span>
       <div
         class="status-button flex"
-        :class="{ done: task.taskDone, notStarted: task.taskNotStarted, pending: task.taskPending }"
+        :class="{
+          'not-started': task.taskStatus === 'Not Started',
+          'pending': task.taskStatus === 'Pending',
+          'in-progress': task.taskStatus === 'In Progress',
+          'delayed': task.taskStatus === 'Delayed',
+          'done': task.taskStatus === 'Done',
+        }"
       >
-        <span v-if="task.taskDone">Done</span>
-        <span v-if="task.taskNotStarted">Not Started</span>
-        <span v-if="task.taskPending">Pending</span>
+        <span>{{ task.taskStatus }}</span>
       </div>
-      <div class="icon">
-        <img src="@/assets/icon-arrow-right.svg" alt="" />
-      </div>
+      <router-link
+        class=""
+        :to="{ name: 'Task', params: { taskId: task.taskId } }"
+      >
+        <div class="icon">
+          <img src="@/assets/icon-arrow-right.svg" alt="" />
+        </div>
+      </router-link>
     </div>
-  </router-link>
+  </div>
 </template>
 
 <script>

@@ -164,7 +164,7 @@ button,
   border-radius: 10px;
 }
 
-.done {
+.in-progress {
   &::before {
     background-color: #33d69f;
   }
@@ -180,9 +180,24 @@ button,
 }
 .not-started {
   &::before {
-    background-color: #dfe3fa;
+    background-color: black;
   }
-  color: #dfe3fa;
+  color: black;
   background-color: rgba(223, 227, 250, 0.1);
 }
+.delayed {
+  &::before {
+    background-color : red;  
+  }
+  color: red;
+  background-color: rgba(255, 17, 0, 0.2);
+}
+.done {
+  &::before {
+    background-color: blue;
+  }
+  color: blue;
+  background-color: rgba(0, 38, 255, 0.1);
+}
+
 </style>

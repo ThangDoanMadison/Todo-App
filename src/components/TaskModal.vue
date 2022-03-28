@@ -23,6 +23,15 @@
       </div>
 
       <div class="task-work flex flex-column">
+        <div class="input flex flex-column">
+          <label for="taskPriority">Priority</label>
+          <select required type="text" id="taskPriority" v-model="taskPriority">
+            <option value="Critical">Critical</option>
+            <option value="High">High</option>
+            <option value="Medium">Medium</option>
+            <option value="Low">Low</option>
+          </select>
+        </div>
         <div class="task-deadline flex">
           <div class="input flex flex-column">
             <label for="taskDate">Start Date</label>
@@ -49,12 +58,13 @@
           </select>
         </div>
         <div class="input flex flex-column">
-          <label for="taskPriority">Priority</label>
-          <select required type="text" id="taskPriority" v-model="taskPriority">
-            <option value="Critical">Critical</option>
-            <option value="High">High</option>
-            <option value="Medium">Medium</option>
-            <option value="Low">Low</option>
+          <label for="status">Status</label>
+          <select required type="text" id="taskStatus" v-model="taskStatus">
+            <option value="Not Started">Not Started</option>
+            <option value="Pending">Pending</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Delayed">Delayed</option>
+            <option value="Done">Done</option>
           </select>
         </div>
       </div>
@@ -68,18 +78,10 @@
           <button
             v-if="!editTask"
             type="submit"
-            @click="saveNotStarted"
-            class="dark-purple"
-          >
-            Save (Not Started)
-          </button>
-          <button
-            v-if="!editTask"
-            type="submit"
             @click="publishTask"
             class="purple"
           >
-            Save (Pending)
+            Save
           </button>
           <button v-if="editTask" type="sumbit" class="purple">
             Update Task
@@ -109,8 +111,9 @@ export default {
       taskDueDateUnix: null,
       taskDueDate: null,
       taskDescription: null,
-      taskPending: null,
-      taskNotStarted: null,
+      // taskPending: null,
+      // taskNotStarted: null,
+      taskStatus: null,
       taskPriority: null,
       taskItemList: [],
     };
@@ -138,10 +141,11 @@ export default {
       this.taskDueDateUnix = currentTask.taskDueDateUnix;
       this.taskDueDate = currentTask.taskDueDate;
       this.taskDescription = currentTask.taskDescription;
-      this.taskPending = currentTask.taskPending;
-      this.taskNotStarted = currentTask.taskNotStarted;
+      // this.taskPending = currentTask.taskPending;
+      // this.taskNotStarted = currentTask.taskNotStarted;
       this.taskPriority = currentTask.taskPriority;
       this.taskItemList = currentTask.taskItemList;
+      this.taskStatus = currentTask.taskStatus;
     }
   },
   methods: {
@@ -162,13 +166,13 @@ export default {
       }
     },
 
-    publishTask() {
-      this.taskPending = true;
-    },
+    // publishTask() {
+    //   this.taskPending = true;
+    // },
 
-    saveNotStarted() {
-      this.taskNotStarted = true;
-    },
+    // saveNotStarted() {
+    //   this.taskNotStarted = true;
+    // },
 
     async uploadTask() {
       // if (this.taskItemList.length <= 0) {
@@ -189,11 +193,12 @@ export default {
         taskDueDate: this.taskDueDate,
         taskDueDateUnix: this.taskDueDateUnix,
         taskDescription: this.taskDescription,
-        taskPending: this.taskPending,
-        taskNotStarted: this.taskNotStarted,
-        taskDone: null,
+        // taskPending: this.taskPending,
+        // taskNotStarted: this.taskNotStarted,
+        // taskDone: null,
         taskItemList: this.taskItemList,
-        taskPriority: this.taskPriority,
+        taskStatus: this.taskStatus,
+        // taskPriority: this.taskPriority,
       });
 
       this.loading = false;
@@ -221,6 +226,7 @@ export default {
         taskDescription: this.taskDescription,
         taskItemList: this.taskItemList,
         taskPriority: this.taskPriority,
+        taskStatus: this.taskStatus,
       });
 
       this.loading = false;
