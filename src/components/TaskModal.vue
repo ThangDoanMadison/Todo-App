@@ -111,8 +111,6 @@ export default {
       taskDueDateUnix: null,
       taskDueDate: null,
       taskDescription: null,
-      // taskPending: null,
-      // taskNotStarted: null,
       taskStatus: null,
       taskPriority: null,
       taskItemList: [],
@@ -141,8 +139,6 @@ export default {
       this.taskDueDateUnix = currentTask.taskDueDateUnix;
       this.taskDueDate = currentTask.taskDueDate;
       this.taskDescription = currentTask.taskDescription;
-      // this.taskPending = currentTask.taskPending;
-      // this.taskNotStarted = currentTask.taskNotStarted;
       this.taskPriority = currentTask.taskPriority;
       this.taskItemList = currentTask.taskItemList;
       this.taskStatus = currentTask.taskStatus;
@@ -193,12 +189,9 @@ export default {
         taskDueDate: this.taskDueDate,
         taskDueDateUnix: this.taskDueDateUnix,
         taskDescription: this.taskDescription,
-        // taskPending: this.taskPending,
-        // taskNotStarted: this.taskNotStarted,
-        // taskDone: null,
         taskItemList: this.taskItemList,
         taskStatus: this.taskStatus,
-        // taskPriority: this.taskPriority,
+        taskPriority: this.taskPriority,
       });
 
       this.loading = false;
