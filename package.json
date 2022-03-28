@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "core-js": "^3.8.3",
+    "eslint": "^8.12.0",
     "firebase": "^9.6.9",
     "node-sass": "^7.0.1",
     "sass-loader": "^12.6.0",
