@@ -14,9 +14,9 @@
           >
           <img src="@/assets/icon-arrow-down.svg" alt="" />
           <ul v-show="filterMenu" class="filter-menu">
-            <li @click="filteredTasks">Not started</li>
+            <li @click="filteredTasks">Not Started</li>
             <li @click="filteredTasks">Pending</li>
-            <li @click="filteredTasks">In progress</li>
+            <li @click="filteredTasks">In Progress</li>
             <li @click="filteredTasks">Delayed</li>
             <li @click="filteredTasks">Done</li>
             <li @click="filteredTasks">Clear Filter</li>
@@ -30,6 +30,8 @@
         </div>
       </div>
     </div>
+    <!-- Header sorting -->
+    <HeaderList />
     <!-- Tasks -->
     <div v-if="taskData.length > 0">
       <Task
@@ -49,6 +51,7 @@
 </template>
 
 <script>
+import HeaderList from "../components/HeaderList.vue"
 import Task from "../components/Task";
 import { mapMutations, mapState } from "vuex";
 export default {
@@ -62,7 +65,8 @@ export default {
   },
   components: {
     Task,
-  },
+    HeaderList,
+},
   methods: {
     ...mapMutations(["TOGGLE_TASK"]),
     newTask() {
@@ -87,19 +91,19 @@ export default {
     filteredData() {
       return this.taskData.filter((task) => {
         if (this.filteredTask === "Not Started") {
-          return task.taskNotStarted === true;
+          return task.taskStatus === "Not Started";
         }
          if (this.filteredTask === "Delayed") {
-          return task.taskDelayed === true;
+          return task.taskStatus === "Delayed";
         }
          if (this.filteredTask === "In Progress") {
-          return task.taskInProgress === true;
+          return task.taskStatus === "In Progress";
         }
         if (this.filteredTask === "Pending") {
-          return task.taskPending === true;
+          return task.taskStatus === "Pending";
         }
         if (this.filteredTask === "Done") {
-          return task.taskDone === true;
+          return task.taskStatus === "Done";
         }
         return task;
       });
@@ -113,7 +117,7 @@ export default {
   color: #fff;
 
   .header {
-    margin-bottom: 65px;
+    margin-bottom: 0px;
 
     .left,
     .right {

@@ -19,6 +19,8 @@ export default createStore({
     },
     SET_TASK_DATA(state, payload) {
       state.taskData.push(payload);
+      // console.log(state);
+      // console.log(payload);
     },
     TASKS_LOADED(state) {
       state.tasksLoaded = true;
@@ -53,11 +55,11 @@ export default createStore({
             taskDueDate: doc.data().taskDueDate,
             taskDescription: doc.data().taskDescription,
             taskItemList: doc.data().taskItemList,
-            // taskPending: doc.data().taskPending,
-            // taskNotStarted: doc.data().taskNotStarted,
-            // taskDone: doc.data().taskDone,
-            // taskDelayed: doc.data().taskDelayed,
-            // taskInProgress: doc.data().taskInProgress,
+            taskPending: doc.data().taskPending,
+            taskNotStarted: doc.data().taskNotStarted,
+            taskDone: doc.data().taskDone,
+            taskDelayed: doc.data().taskDelayed,
+            taskInProgress: doc.data().taskInProgress,
             taskPriority: doc.data().taskPriority,
             taskStatus: doc.data().taskStatus,
           };
