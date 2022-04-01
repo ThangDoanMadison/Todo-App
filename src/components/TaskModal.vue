@@ -32,30 +32,9 @@
             <option value="Low">Low</option>
           </select>
         </div>
-        <div class="task-deadline flex">
-          <div class="input flex flex-column">
-            <label for="taskDate">Start Date</label>
-            <input disabled type="text" id="taskDate" v-model="taskDate" />
-          </div>
-          <div class="input flex flex-column">
-            <label for="taskDueDate">End Date</label>
-            <input
-              disabled
-              type="text"
-              id="taskDueDate"
-              v-model="taskDueDate"
-            />
-          </div>
-        </div>
         <div class="input flex flex-column">
-          <label for="taskTerms">Deadline Terms</label>
-          <select required type="text" id="taskTerms" v-model="taskTerms">
-            <option value="1">Next 1 Days</option>
-            <option value="5">Next 5 Days</option>
-            <option value="10">Next 10 Days</option>
-            <option value="30">Next 30 Days</option>
-            <option value="60">Next 60 Days</option>
-          </select>
+          <label for="taskDeadline" id="taskDeadline">Deadline</label>
+          <input v-model="taskDeadline" type="date" for />
         </div>
         <div class="input flex flex-column">
           <label for="status">Status</label>
@@ -101,15 +80,16 @@ export default {
   name: "taskModal",
   data() {
     return {
-      dateOptions: { year: "numeric", month: "short", day: "numeric" },
+      // dateOptions: { year: "numeric", month: "numeric", day: "numeric" },
       docId: null,
       taskName: null,
       loading: null,
-      taskDateUnix: null,
-      taskDate: null,
-      taskTerms: null,
-      taskDueDateUnix: null,
-      taskDueDate: null,
+      // taskDateUnix: null,
+      // taskDate: null,
+      // taskTerms: null,
+      // taskDueDateUnix: null,
+      // taskDueDate: null,
+      taskDeadline: Date,
       taskDescription: null,
       taskStatus: null,
       taskPriority: null,
@@ -120,24 +100,11 @@ export default {
     Loading,
   },
   created() {
-    // get current date for task date field
-    if (!this.editTask) {
-      this.taskDateUnix = Date.now();
-      this.taskDate = new Date(this.taskDateUnix).toLocaleDateString(
-        "en-us",
-        this.dateOptions
-      );
-    }
-
     if (this.editTask) {
       const currentTask = this.currentTaskArray[0];
       this.docId = currentTask.docId;
       this.taskName = currentTask.taskName;
-      this.taskDateUnix = currentTask.taskDateUnix;
-      this.taskDate = currentTask.taskDate;
-      this.taskTerms = currentTask.taskTerms;
-      this.taskDueDateUnix = currentTask.taskDueDateUnix;
-      this.taskDueDate = currentTask.taskDueDate;
+      this.taskDeadline = currentTask.taskDeadline;
       this.taskDescription = currentTask.taskDescription;
       this.taskPriority = currentTask.taskPriority;
       this.taskItemList = currentTask.taskItemList;
@@ -162,19 +129,7 @@ export default {
       }
     },
 
-    // publishTask() {
-    //   this.taskPending = true;
-    // },
-
-    // saveNotStarted() {
-    //   this.taskNotStarted = true;
-    // },
-
     async uploadTask() {
-      // if (this.taskItemList.length <= 0) {
-      //   alert("Please ensure you filled out work items!");
-      //   return;
-      // }
 
       this.loading = true;
 
@@ -183,11 +138,12 @@ export default {
       await dataBase.set({
         taskId: uid(6),
         taskName: this.taskName,
-        taskDate: this.taskDate,
-        taskDateUnix: this.taskDateUnix,
-        taskTerms: this.taskTerms,
-        taskDueDate: this.taskDueDate,
-        taskDueDateUnix: this.taskDueDateUnix,
+        // taskDate: this.taskDate,
+        // taskDateUnix: this.taskDateUnix,
+        // taskTerms: this.taskTerms,
+        // taskDueDate: this.taskDueDate,
+        // taskDueDateUnix: this.taskDueDateUnix,
+        taskDeadline: this.taskDeadline,
         taskDescription: this.taskDescription,
         taskItemList: this.taskItemList,
         taskStatus: this.taskStatus,
@@ -202,10 +158,6 @@ export default {
     },
 
     async updateTask() {
-      // if (this.taskItemList.length <= 0) {
-      //   alert("Please ensure you filled out work items!");
-      //   return;
-      // }
 
       this.loading = true;
 
@@ -213,9 +165,10 @@ export default {
 
       await dataBase.update({
         taskName: this.taskName,
-        taskTerms: this.taskTerms,
-        taskDueDate: this.taskDueDate,
+        // taskTerms: this.taskTerms,
+        // taskDueDate: this.taskDueDate,
         // taskDueDateUnix: this.taskDueDateUnix,
+        taskDeadline: this.taskDeadline,
         taskDescription: this.taskDescription,
         taskItemList: this.taskItemList,
         taskPriority: this.taskPriority,

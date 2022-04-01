@@ -6,8 +6,14 @@
         <h1>Tasks</h1>
         <span>There are {{ taskData.length }} total tasks</span>
       </div>
+      <div class="middle">
+        <span><input type="checkbox" v-model="showIncompleteTasks" @click="checkIncompleteTasks">
+          Show task incomplete
+          </span>
+      </div>
       <div class="right flex">
         <div @click="toggleFilterMenu" class="filter flex">
+          
           <span
             >Filter by status
             <span v-if="filteredTask">: {{ filteredTask }}</span></span
@@ -61,6 +67,7 @@ export default {
     return {
       filterMenu: null,
       filteredTask: null,
+      showIncompleteTasks: true,
     };
   },
   components: {
@@ -84,6 +91,8 @@ export default {
       }
       this.filteredTask = e.target.innerText;
     },
+
+    checkIncompleteTask() {},
   },
   computed: {
     ...mapState(["taskData"]),
@@ -118,12 +127,22 @@ export default {
 
   .header {
     margin-bottom: 0px;
+    align-items: baseline;
 
     .left,
-    .right {
+    .right,
+    .middle {
       flex: 1;
     }
-
+    .left {
+      // input{
+      //       margin-right: 12px;
+      //     }
+    }
+    .middle{
+      justify-content: center;
+      align-items: baseline;
+    }
     .right {
       justify-content: flex-end;
       align-items: center;
@@ -134,6 +153,7 @@ export default {
 
         span {
           font-size: 12px;
+          
         }
       }
 

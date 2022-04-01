@@ -4,6 +4,7 @@
       <NavigationBar></NavigationBar>
       <div class="app-content flex flex-column">
         <Modal v-if="modalActive"></Modal>
+        <DeleteModal v-if="deleteModalActive"></DeleteModal>
         <transition name="task">
           <TaskModal v-if="taskModal"></TaskModal>
         </transition>
@@ -23,6 +24,7 @@ import { mapState, mapActions } from "vuex";
 import NavigationBar from "./components/NavigationBar.vue";
 import TaskModal from "./components/TaskModal.vue";
 import Modal from "./components/Modal.vue";
+import DeleteModal from "./components/DeleteModal.vue";
 export default {
   data() {
     return { mobile: null };
@@ -31,7 +33,8 @@ export default {
     NavigationBar,
     TaskModal,
     Modal,
-  },
+    DeleteModal
+},
   created() {
     this.GET_TASKS();
     this.checkScreen();
@@ -50,7 +53,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(["taskModal", "modalActive"]),
+    ...mapState(["taskModal", "modalActive","deleteModalActive"]),
   },
 };
 </script>

@@ -11,10 +11,10 @@
           class="status-button flex"
           :class="{
             'not-started': currentTask.taskStatus === 'Not Started',
-            'pending': currentTask.taskStatus === 'Pending',
+            pending: currentTask.taskStatus === 'Pending',
             'in-progress': currentTask.taskStatus === 'In Progress',
-            'delayed': currentTask.taskStatus === 'Delayed',
-            'done': currentTask.taskStatus === 'Done',
+            delayed: currentTask.taskStatus === 'Delayed',
+            done: currentTask.taskStatus === 'Done',
           }"
         >
           <span>{{ currentTask.taskStatus }}</span>
@@ -22,7 +22,7 @@
       </div>
       <div class="right flex">
         <button @click="toggleEditTask" class="dark-purple">Edit</button>
-        <button @click="deleteTask(currentTask.docId)" class="red">
+        <button @click="toggleDeleteModal" class="red">
           Delete
         </button>
       </div>
@@ -37,18 +37,12 @@
       </div>
       <div class="middle flex">
         <div class="task-date flex flex-column">
-          <h4>Task Date</h4>
+          <h4>Task Deadline</h4>
           <p>
-            {{ currentTask.taskDate }}
-          </p>
-          <h4>End Date</h4>
-          <p>
-            {{ currentTask.taskDueDate }}
+            {{ currentTask.taskDeadline }}
           </p>
         </div>
         <div class="task-terms flex flex-column">
-          <h4>Task Terms</h4>
-          <p>{{ currentTask.taskTerms }}</p>
           <h4>Task Priority</h4>
           <p>{{ currentTask.taskPriority }}</p>
         </div>
@@ -74,12 +68,12 @@ export default {
     this.getCurrentTask();
   },
   methods: {
-    ...mapMutations(["SET_CURRENT_TASK", "TOGGLE_EDIT_TASK", "TOGGLE_TASK"]),
+    ...mapMutations(["SET_CURRENT_TASK", "TOGGLE_EDIT_TASK", "TOGGLE_TASK", "TOGGLE_DELETE_MODAL"]),
 
     ...mapActions([
       "DELETE_TASK",
     ]),
-
+    
     getCurrentTask() {
       this.SET_CURRENT_TASK(this.$route.params.taskId);
       this.currentTask = this.currentTaskArray[0];
@@ -89,11 +83,10 @@ export default {
       this.TOGGLE_EDIT_TASK();
       this.TOGGLE_TASK();
     },
-
-    async deleteTask(docId) {
-      await this.DELETE_TASK(docId);
-      this.$router.push({ name: "Home" });
+    toggleDeleteModal() {
+        this.TOGGLE_DELETE_MODAL();
     },
+    
   },
   computed: {
     ...mapState(["currentTaskArray", "editTask"]),
