@@ -268,6 +268,9 @@ export default {
     // Task Work
 
     .task-work {
+      .input{
+        color: #fff;
+      }
       .task-deadline {
         gap: 24px;
         div {
