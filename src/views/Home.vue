@@ -7,13 +7,17 @@
         <span>There are {{ taskData.length }} total tasks</span>
       </div>
       <div class="middle">
-        <span><input type="checkbox" v-model="showIncompleteTasks" @click="checkIncompleteTasks">
+        <span
+          ><input
+            type="checkbox"
+            v-model="showIncompleteTasks"
+            @click="checkIncompleteData"
+          />
           Show task incomplete
-          </span>
+        </span>
       </div>
       <div class="right flex">
         <div @click="toggleFilterMenu" class="filter flex">
-          
           <span
             >Filter by status
             <span v-if="filteredTask">: {{ filteredTask }}</span></span
@@ -40,24 +44,18 @@
     <HeaderList />
     <!-- Tasks -->
     <div v-if="taskData.length > 0">
-      <Task
-        v-for="(task, index) in filteredData"
-        :task="task"
-        :key="index"
-      />
+      <Task v-for="(task, index) in filteredData" :task="task" :key="index" />
     </div>
     <div v-else class="empty flex flex-column">
       <img src="@/assets/empty-list.jpg" alt="" />
       <h3>There is nothing here</h3>
-      <p>
-        Create a new task by clicking the New Task button and get started
-      </p>
+      <p>Create a new task by clicking the New Task button and get started</p>
     </div>
   </div>
 </template>
 
 <script>
-import HeaderList from "../components/HeaderList.vue"
+import HeaderList from "../components/HeaderList.vue";
 import Task from "../components/Task";
 import { mapMutations, mapState } from "vuex";
 export default {
@@ -73,9 +71,10 @@ export default {
   components: {
     Task,
     HeaderList,
-},
+  },
   methods: {
     ...mapMutations(["TOGGLE_TASK"]),
+    
     newTask() {
       this.TOGGLE_TASK();
     },
@@ -91,8 +90,6 @@ export default {
       }
       this.filteredTask = e.target.innerText;
     },
-
-    checkIncompleteTask() {},
   },
   computed: {
     ...mapState(["taskData"]),
@@ -102,10 +99,10 @@ export default {
         if (this.filteredTask === "Not Started") {
           return task.taskStatus === "Not Started";
         }
-         if (this.filteredTask === "Delayed") {
+        if (this.filteredTask === "Delayed") {
           return task.taskStatus === "Delayed";
         }
-         if (this.filteredTask === "In Progress") {
+        if (this.filteredTask === "In Progress") {
           return task.taskStatus === "In Progress";
         }
         if (this.filteredTask === "Pending") {
@@ -114,9 +111,13 @@ export default {
         if (this.filteredTask === "Done") {
           return task.taskStatus === "Done";
         }
+        if(this.showIncompleteTasks === true) {
+          return task.taskStatus !== "Done";
+        }
         return task;
       });
     },
+    
   },
 };
 </script>
@@ -139,7 +140,7 @@ export default {
       //       margin-right: 12px;
       //     }
     }
-    .middle{
+    .middle {
       justify-content: center;
       align-items: baseline;
     }
@@ -153,7 +154,6 @@ export default {
 
         span {
           font-size: 12px;
-          
         }
       }
 
